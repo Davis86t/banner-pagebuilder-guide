@@ -44,7 +44,7 @@
       background: #ffffff;
       border-radius: 12px;
       border: 1px solid var(--border-subtle);
-      padding: 20px 22px 22px;
+      padding: 20px 24px 16px;
     }
 
     @page {
@@ -134,7 +134,7 @@
     }
 
     .section {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .section-header {
@@ -258,10 +258,12 @@
     }
 
     .footer-note {
-      margin-top: 6px;
+      margin-top: 10px;
+      padding-top: 16px;
       font-size: 0.7rem;
       color: var(--text-soft);
       text-align: right;
+      border-top: 1px solid var(--border-subtle);
     }
 
     @media (max-width: 800px) {
@@ -359,7 +361,8 @@
           <h3>2.2 Bind Variables & Case</h3>
           <ul>
             <li>Bind variables <strong>must be lowercase</strong> in PB context: <code>:sid</code>, not
-              <code>:SID</code>.</li>
+              <code>:SID</code>.
+            </li>
             <li>Wrong casing can silently pass <code>NULL</code> parameters, giving empty or misleading results.</li>
             <li>Always confirm that the bind variable names in the VD match what PB is sending in debug output.</li>
           </ul>
@@ -421,7 +424,8 @@
       <ul>
         <li>An onClick script becomes an AngularJS function on the page scope.</li>
         <li>Bindings like <code>{{ $myTextbox }}</code> turn into <code>{{ myTextbox }}</code> against
-          <code>$scope</code>.</li>
+          <code>$scope</code>.
+        </li>
       </ul>
       <div class="callout tip">
         Reading a bit of AngularJS 1.x documentation pays off — PageBuilder is essentially an AngularJS app generator
@@ -458,7 +462,8 @@ $scope.myGridDS.load(...)</code></pre>
 console.log(this);
 console.log($externalScope);</code></pre>
           <p>Click it in the running app, then inspect the logged object in DevTools. That’s your real
-            <code>$scope</code> tree.</p>
+            <code>$scope</code> tree.
+          </p>
         </div>
         <div>
           <h3>4.3 What to Look For in Scope</h3>
@@ -631,11 +636,11 @@ $myGridDS.load($myGridDS.queryParams, true);</code></pre>
           </ul>
         </li>
       </ol>
-      <div class="footer-note">
-        This handbook is meant to live next to the Survival Guide and Cheat Sheet. Together they form the MSSU
-        PageBuilder playbook.
-      </div>
     </section>
+    <div class="footer-note">
+      This handbook is meant to live next to the Survival Guide and Cheat Sheet. Together they form the MSSU
+      PageBuilder playbook.
+    </div>
   </div>
 </body>
 
