@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>PageBuilder Survival Guide – Dark</title>
   <style>
     :root {
       --bg-page: #020617;
-      --bg-card: rgba(15,23,42,0.92);
+      --bg-card: rgba(15, 23, 42, 0.92);
       --border-subtle: #1f2937;
       --border-strong: #4b5563;
       --text-main: #e5e7eb;
@@ -15,10 +16,10 @@
       --accent-vd: #34d399;
       --accent-data: #fb923c;
       --accent-debug: #f87171;
-      --accent-soft-core: rgba(96,165,250,0.16);
-      --accent-soft-vd: rgba(52,211,153,0.16);
-      --accent-soft-data: rgba(251,146,60,0.16);
-      --accent-soft-debug: rgba(248,113,113,0.16);
+      --accent-soft-core: rgba(96, 165, 250, 0.16);
+      --accent-soft-vd: rgba(52, 211, 153, 0.16);
+      --accent-soft-data: rgba(251, 146, 60, 0.16);
+      --accent-soft-debug: rgba(248, 113, 113, 0.16);
       --code-bg: #0b1120;
     }
 
@@ -26,7 +27,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       background: var(--bg-page);
@@ -60,16 +62,20 @@
       margin: 0.5in;
     }
 
-    
-    
+
+
     @media print {
-      html, body {
+
+      html,
+      body {
         background: #ffffff !important;
         padding: 0 !important;
       }
+
       body {
         display: block !important;
       }
+
       .sheet {
         width: 100% !important;
         max-width: 850px !important;
@@ -79,42 +85,48 @@
         background: #ffffff !important;
         box-shadow: none !important;
       }
+
       .card {
         background: #ffffff !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
+
       .section-row-title {
         page-break-after: avoid !important;
       }
+
       a {
         text-decoration: none;
       }
     }
 
-      .sheet {
-        max-width: 100% !important;
-        border-radius: 0 !important;
-        border: none !important;
-        background: #ffffff !important;
-        box-shadow: none !important;
-      }
-      .card {
-        background: #ffffff !important;
-      }
-      a {
-        text-decoration: none;
-      }
+    .sheet {
+      max-width: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #ffffff !important;
+      box-shadow: none !important;
     }
 
-      .sheet {
-        max-width: 100%;
-        border-radius: 0;
-        border: none;
-      }
-      a {
-        text-decoration: none;
-      }
+    .card {
+      background: #ffffff !important;
+    }
+
+    a {
+      text-decoration: none;
+    }
+    }
+
+    .sheet {
+      max-width: 100%;
+      border-radius: 0;
+      border: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
     }
 
     /* Header */
@@ -360,114 +372,154 @@
       .col-grid-3 {
         grid-template-columns: minmax(0, 1fr);
       }
+
       .col-grid-2 {
         grid-template-columns: minmax(0, 1fr);
       }
+
       .header {
         flex-direction: column;
         align-items: flex-start;
       }
+
       .header-meta {
         text-align: left;
       }
     }
-  
-/* ===========================
+
+    /* ===========================
    DARK MODE OVERRIDES (SCREEN)
    This block intentionally uses !important to override any duplicated
    print-preview cleanup rules that may exist outside @media print.
    =========================== */
-@media screen {
-  /* Header spacing: keep separation from first section */
-  .header { padding-bottom: 8px !important; margin-bottom: 10px !important; }
-  .header + .section-row-title { margin-top: 10px !important; }
+    @media screen {
+
+      /* Header spacing: keep separation from first section */
+      .header {
+        padding-bottom: 8px !important;
+        margin-bottom: 10px !important;
+      }
+
+      .header+.section-row-title {
+        margin-top: 10px !important;
+      }
 
 
-  /* Header layout (keep pills top-right) */
-  .header {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
-  .header-meta {
-    text-align: right !important;
-    align-self: flex-start !important;
-  }
-  .tag-row {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: flex-end !important;
-    gap: 4px !important;
-    margin-bottom: 4px !important;
-  }
-  .title-block { max-width: 70% !important; }
+      /* Header layout (keep pills top-right) */
+      .header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
 
-  html, body {
-    background: radial-gradient(circle at top, #0f172a 0, var(--bg-page) 60%) !important;
-    color: var(--text-main) !important;
-  }
+      .header-meta {
+        text-align: right !important;
+        align-self: flex-start !important;
+      }
 
-  .sheet {
-    background: var(--bg-card) !important;
-    border: 1px solid var(--border-subtle) !important;
-    border-radius: 14px !important;
-    box-shadow: 0 18px 45px rgba(0,0,0,0.70), 0 0 0 1px rgba(15,23,42,0.90) !important;
-  }
+      .tag-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+        gap: 4px !important;
+        margin-bottom: 4px !important;
+      }
 
-  .card {
-    background: rgba(2,6,23,0.92) !important;
-    border: 1px solid var(--border-subtle) !important;
-    color: var(--text-main) !important;
-  }
+      .title-block {
+        max-width: 70% !important;
+      }
 
-  .header { border-bottom: 1px solid var(--border-subtle) !important; }
+      html,
+      body {
+        background: radial-gradient(circle at top, #0f172a 0, var(--bg-page) 60%) !important;
+        color: var(--text-main) !important;
+      }
 
-  .title-label,
-  .title-sub,
-  .header-meta,
-  .section-heading,
-  .section-note,
-  .footer-note,
-  .card-title small {
-    color: var(--text-soft) !important;
-  }
+      .sheet {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-subtle) !important;
+        border-radius: 14px !important;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.70), 0 0 0 1px rgba(15, 23, 42, 0.90) !important;
+      }
 
-  .tag {
-    background: rgba(15,23,42,0.85) !important;
-    border: 1px solid var(--border-subtle) !important;
-    color: var(--text-soft) !important;
-  }
+      .card {
+        background: rgba(2, 6, 23, 0.92) !important;
+        border: 1px solid var(--border-subtle) !important;
+        color: var(--text-main) !important;
+      }
 
-  .badge {
-    background: rgba(15,23,42,0.75) !important;
-    border: 1px solid var(--border-subtle) !important;
-    color: var(--text-soft) !important;
-  }
+      .header {
+        border-bottom: 1px solid var(--border-subtle) !important;
+      }
 
-  .callout {
-    border: 1px solid var(--border-subtle) !important;
-    background: rgba(15,23,42,0.70) !important;
-  }
+      .title-label,
+      .title-sub,
+      .header-meta,
+      .section-heading,
+      .section-note,
+      .footer-note,
+      .card-title small {
+        color: var(--text-soft) !important;
+      }
 
-  .callout.core  { border-color: var(--accent-core) !important;  background: var(--accent-soft-core) !important; }
-  .callout.vd    { border-color: var(--accent-vd) !important;    background: var(--accent-soft-vd) !important; }
-  .callout.data  { border-color: var(--accent-data) !important;  background: var(--accent-soft-data) !important; }
-  .callout.debug { border-color: var(--accent-debug) !important; background: var(--accent-soft-debug) !important; }
+      .tag {
+        background: rgba(15, 23, 42, 0.85) !important;
+        border: 1px solid var(--border-subtle) !important;
+        color: var(--text-soft) !important;
+      }
 
-  code, pre {
-    background: var(--code-bg) !important;
-    border: 1px solid var(--border-subtle) !important;
-    color: var(--text-main) !important;
-  }
+      .badge {
+        background: rgba(15, 23, 42, 0.75) !important;
+        border: 1px solid var(--border-subtle) !important;
+        color: var(--text-soft) !important;
+      }
 
-  a { color: var(--accent-core) !important; text-decoration: none !important; }
-  a:hover { text-decoration: underline !important; }
-}
+      .callout {
+        border: 1px solid var(--border-subtle) !important;
+        background: rgba(15, 23, 42, 0.70) !important;
+      }
 
-</style>
+      .callout.core {
+        border-color: var(--accent-core) !important;
+        background: var(--accent-soft-core) !important;
+      }
+
+      .callout.vd {
+        border-color: var(--accent-vd) !important;
+        background: var(--accent-soft-vd) !important;
+      }
+
+      .callout.data {
+        border-color: var(--accent-data) !important;
+        background: var(--accent-soft-data) !important;
+      }
+
+      .callout.debug {
+        border-color: var(--accent-debug) !important;
+        background: var(--accent-soft-debug) !important;
+      }
+
+      code,
+      pre {
+        background: var(--code-bg) !important;
+        border: 1px solid var(--border-subtle) !important;
+        color: var(--text-main) !important;
+      }
+
+      a {
+        color: var(--accent-core) !important;
+        text-decoration: none !important;
+      }
+
+      a:hover {
+        text-decoration: underline !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="sheet">
     <!-- HEADER -->
@@ -481,7 +533,7 @@
         <div class="title-sub">
           Ellucian PageBuilder · Virtual Domains · AngularJS / Oracle PL/SQL
         </div>
-		<div class="title-sub">Created by Tanner Davis · Version 1.0</div>
+        <div class="title-sub">Created by Tanner Davis · Version 1.0</div>
       </div>
       <div class="header-meta">
         <div class="tag-row">
@@ -688,7 +740,8 @@
           <ul>
             <li><strong>[Grid]</strong> → visual table bound to a dataset.</li>
             <li><strong>[Data]</strong> → non-visual version; same DS behavior.</li>
-            <li><strong>[Literal]</strong> → renders raw HTML; allows <code>{{ }}</code> and <code>$implicitVariables</code>.</li>
+            <li><strong>[Literal]</strong> → renders raw HTML; allows <code>{{ }}</code> and
+              <code>$implicitVariables</code>.</li>
           </ul>
           <div class="callout data">
             Use [Literal] to inject HTML fragments PageBuilder can’t natively model.
@@ -796,13 +849,15 @@
           </div>
         </div>
         <div class="card-body">
-          <p>If a user triggers <code>.load()</code> while a previous load is still running, <code>data</code> can end up empty.</p>
+          <p>If a user triggers <code>.load()</code> while a previous load is still running, <code>data</code> can end
+            up empty.</p>
           <p>Guard example:</p>
           <pre><code>if (!$myGridDS.inProgress) {
   $myGridDS.load({ paging: true }, true);
 }</code></pre>
           <div class="callout data">
-            Also consider disabling buttons or controls while <code>inProgress</code> is true to avoid overlapping loads.
+            Also consider disabling buttons or controls while <code>inProgress</code> is true to avoid overlapping
+            loads.
           </div>
         </div>
       </div>
@@ -890,9 +945,11 @@
         </ol>
       </div>
     </div>
-	<div class="footer-note">
-		Keep this sheet printed near your desk. It compresses years of “what the hell is PageBuilder doing?” into one page.
+    <div class="footer-note">
+      Keep this sheet printed near your desk. It compresses years of “what the hell is PageBuilder doing?” into one
+      page.
     </div>
   </div>
 </body>
+
 </html>
