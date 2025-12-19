@@ -19,7 +19,7 @@ This repo contains three complementary HTML documents:
 - **PageBuilder Pitfalls Cheat Sheet**  
   A concise collection of the most common traps, failure modes, and proven fixes encountered in real Banner PageBuilder work.
 
-All documents are provided as **self-contained HTML** with consistent layout, styling, and print-friendly behavior.
+All documents are provided as **self-contained HTML**, with dedicated dark (screen) and print versions and consistent layout across both. 
 
 ---
 
@@ -57,6 +57,18 @@ This material assumes you are already working in a **production, legacy, higher-
    Especially when PageBuilder is “being weird” and not throwing helpful errors.
 
 These documents are designed to be used together.
+
+---
+
+## Viewing the Docs
+
+This repository is published as a browsable reference site via GitHub Pages.
+
+- Use the **dark versions** for on-screen reading.
+- Use the **print versions** for hard copies or PDFs.
+- Links from the index page open in new tabs to preserve navigation.
+
+The HTML files can also be downloaded and used locally with no build step.
 
 ---
 
