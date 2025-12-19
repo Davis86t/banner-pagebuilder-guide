@@ -1,150 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Banner PageBuilder Guide</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #020617;
-      --card: #020617;
-      --border: #1f2937;
-      --text: #e5e7eb;
-      --text-soft: #9ca3af;
-      --accent: #60a5fa;
-      --accent-alt: #34d399;
-    }
+    <meta charset="UTF-8" />
+    <title>Banner PageBuilder Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --bg: #020617;
+            --card: #020617;
+            --border: #1f2937;
+            --text: #e5e7eb;
+            --text-soft: #9ca3af;
+            --accent: #60a5fa;
+            --accent-alt: #34d399;
+        }
 
-    * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-    body {
-      margin: 0;
-      padding: 32px 16px;
-      background: radial-gradient(circle at top, #0f172a 0, #020617 60%);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-    }
+        body {
+            margin: 0;
+            padding: 32px 16px;
+            background: radial-gradient(circle at top, #0f172a 0, #020617 60%);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text);
+        }
 
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
 
-    header {
-      margin-bottom: 24px;
-    }
+        header {
+            margin-bottom: 24px;
+        }
 
-    .label {
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 6px;
-    }
+        .label {
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 6px;
+        }
 
-    h1 {
-      font-size: 1.4rem;
-      margin: 0 0 6px;
-      color: var(--accent);
-      letter-spacing: 0.04em;
-    }
+        h1 {
+            font-size: 1.4rem;
+            margin: 0 0 6px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
 
-    .subtitle {
-      font-size: 0.85rem;
-      color: var(--text-soft);
-      max-width: 640px;
-    }
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            max-width: 640px;
+        }
 
-    .card {
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin-bottom: 14px;
-      background: rgba(2, 6, 23, 0.9);
-    }
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            background: rgba(2, 6, 23, 0.9);
+        }
 
-    .card h2 {
-      font-size: 0.9rem;
-      margin: 0 0 4px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent-alt);
-    }
+        .card h2 {
+            font-size: 0.9rem;
+            margin: 0 0 4px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-alt);
+        }
 
-    .card p {
-      font-size: 0.78rem;
-      margin: 0 0 10px;
-      color: var(--text-soft);
-    }
+        .card p {
+            font-size: 0.78rem;
+            margin: 0 0 10px;
+            color: var(--text-soft);
+        }
 
-    .links a {
-      display: inline-block;
-      margin-right: 12px;
-      font-size: 0.78rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
+        .links a {
+            display: inline-block;
+            margin-right: 12px;
+            font-size: 0.78rem;
+            color: var(--accent);
+            text-decoration: none;
+        }
 
-    .links a:hover {
-      text-decoration: underline;
-    }
+        .links a:hover {
+            text-decoration: underline;
+        }
 
-    footer {
-      margin-top: 24px;
-      font-size: 0.7rem;
-      color: var(--text-soft);
-      text-align: right;
-    }
-  </style>
+        footer {
+            margin-top: 24px;
+            font-size: 0.7rem;
+            color: var(--text-soft);
+            text-align: right;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <div class="label">Higher-Ed · Banner · PageBuilder</div>
-      <h1>Banner PageBuilder Guide</h1>
-      <div class="subtitle">
-        Practical, experience-driven documentation for maintaining Ellucian
-        Banner PageBuilder applications in higher-education environments.
-      </div>
-    </header>
+    <div class="container">
+        <header>
+            <div class="label">Higher-Ed · Banner · PageBuilder</div>
+            <h1>Banner PageBuilder Guide</h1>
+            <div class="subtitle">
+                Practical, experience-driven documentation for maintaining Ellucian
+                Banner PageBuilder applications in higher-education environments.
+            </div>
+        </header>
 
-    <section class="card">
-      <h2>Engineering Handbook</h2>
-      <p>
-        Deep technical reference covering PageBuilder’s mental model,
-        Virtual Domains, datasets, AngularJS scopes, and execution flow.
-      </p>
-      <div class="links">
-        <a href="handbook/pagebuilder-handbook-dark-v2.html">Dark (Screen)</a>
-        <a href="handbook/pagebuilder-handbook-print.html">Print</a>
-      </div>
-    </section>
+        <section class="card">
+            <h2>Engineering Handbook</h2>
+            <p>
+                Deep technical reference covering PageBuilder’s mental model,
+                Virtual Domains, datasets, AngularJS scopes, and execution flow.
+            </p>
+            <div class="links">
+                <a target="_blank" href="handbook/pagebuilder-handbook-dark-v2.html">Dark (Screen)</a>
+                <a target="_blank" href="handbook/pagebuilder-handbook-print.html">Print</a>
+            </div>
+        </section>
 
-    <section class="card">
-      <h2>Survival Guide</h2>
-      <p>
-        Day-to-day working guide for developers touching existing
-        PageBuilder pages, domains, and resources.
-      </p>
-      <div class="links">
-        <a href="guides/pagebuilder-survival-guide-print-v9.html">Open Guide</a>
-      </div>
-    </section>
+        <section class="card">
+            <h2>Survival Guide</h2>
+            <p>
+                Day-to-day working guide for developers touching existing
+                PageBuilder pages, domains, and resources.
+            </p>
+            <div class="links">
+                <a target="_blank" href="guides/pagebuilder-survival-guide-print-v9.html">Open Guide</a>
+            </div>
+        </section>
 
-    <section class="card">
-      <h2>Pitfalls Cheat Sheet</h2>
-      <p>
-        The most common PageBuilder traps, failure modes,
-        and proven fixes encountered in production.
-      </p>
-      <div class="links">
-        <a href="cheatsheets/pagebuilder-pitfalls-cheatsheet-v4.html">Open Cheat Sheet</a>
-      </div>
-    </section>
+        <section class="card">
+            <h2>Pitfalls Cheat Sheet</h2>
+            <p>
+                The most common PageBuilder traps, failure modes,
+                and proven fixes encountered in production.
+            </p>
+            <div class="links">
+                <a target="_blank" href="cheatsheets/pagebuilder-pitfalls-cheatsheet-v4.html">Open Cheat Sheet</a>
+            </div>
+        </section>
 
-    <footer>
-      Maintained by Tanner Davis · Higher Education Software Development
-    </footer>
-  </div>
+        <footer>
+            Maintained by Tanner Davis · Higher Education Software Development
+        </footer>
+    </div>
 </body>
+
 </html>
