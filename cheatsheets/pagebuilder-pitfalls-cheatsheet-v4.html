@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PageBuilder Pitfalls Cheat Sheet – Print v4</title>
+  <style>
+    :root {
+      --bg-page: #f5f5f7;
+      --bg-card: #ffffff;
+      --border-subtle: #d4d4dd;
+      --text-main: #111827;
+      --text-soft: #4b5563;
+      --accent-warn: #b91c1c;
+      --accent-fix: #059669;
+      --accent-note: #1d4ed8;
+      --code-bg: #f3f4f6;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-page);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    body {
+      padding: 24px 0;
+    }
+
+    .sheet {
+      width: 850px;
+      max-width: 100%;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 18px 20px 20px;
+    }
+
+    @page {
+      size: letter portrait;
+      margin: 0.5in;
+    }
+
+    @media print {
+      html, body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .sheet {
+        width: 100% !important;
+        max-width: 850px !important;
+        margin: 0 auto !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        page-break-after: avoid;
+      }
+
+      .wtf-chunk {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .section-heading {
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .card {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .col-grid-3 {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .title-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-soft);
+    }
+
+    .title-main {
+      font-size: 1.2rem;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-warn);
+    }
+
+    .title-main span.icon { font-size: 1.1rem; }
+
+    .title-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .header-meta {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: flex-end;
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      padding: 2px 8px;
+      font-size: 0.68rem;
+      background: #f9fafb;
+      white-space: nowrap;
+    }
+
+    .section-heading {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .section-heading span.icon { font-size: 0.9rem; }
+
+    .col-grid-3 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      padding: 6px 8px 7px;
+      font-size: 0.74rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-title small {
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+    }
+
+    .pill-wtf {
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid #fecaca;
+      background: #fee2e2;
+      color: #991b1b;
+      white-space: nowrap;
+    }
+
+    .pill-fix {
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid #bbf7d0;
+      background: #dcfce7;
+      color: #166534;
+      white-space: nowrap;
+    }
+
+    .card-body { font-size: 0.73rem; }
+
+    .card-body p { margin: 2px 0; }
+
+    .card-body ul {
+      margin: 2px 0 2px 14px;
+      padding: 0;
+    }
+
+    .card-body li { margin: 1px 0; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.72rem;
+      background: var(--code-bg);
+      padding: 0 3px;
+      border-radius: 3px;
+      border: 1px solid #e5e7eb;
+    }
+
+    pre {
+      margin: 2px 0;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: var(--code-bg);
+      border: 1px solid #e5e7eb;
+      font-size: 0.72rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    @media (max-width: 800px) {
+      .col-grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sheet">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="title-block">
+        <div class="title-label">Internal Reference · MSSU</div>
+        <div class="title-main">
+          <span class="icon">⚠️</span>
+          <span>PageBuilder Pitfalls Cheat Sheet</span>
+        </div>
+        <div class="title-sub">
+          The landmines, traps, and real fixes for Ellucian PageBuilder.
+        </div>
+        <div class="title-sub">Created by Tanner Davis · v4.0</div>
+      </div>
+      <div class="header-meta">
+        <div class="tag-row">
+          <span class="tag">Use when PB is being weird</span>
+          <span class="tag">Pairs with Survival Guide &amp; PB Handbook 9.3</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- CHUNK 1: TOP Pitfalls heading + first row -->
+    <div class="wtf-chunk">
+      <div class="section-heading">
+        <span class="icon">🧨</span>
+        TOP PAGEBUILDER PITFALLS (AND HOW TO AVOID THEM)
+      </div>
+
+      <div class="col-grid-3">
+        <!-- Pitfall 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Grid Load Just… Stops
+              <small>#1</small>
+            </div>
+            <span class="pill-wtf">Trap</span>
+          </div>
+          <div class="card-body">
+            <p><strong>Symptom:</strong> Docs say <code>$myGrid.$load()</code>, but clicks do nothing. No error, no rows.</p>
+            <p><strong>Why:</strong> Once the page or dataset is “dirty,” the compiled sugar breaks and <code>$myGrid</code> no longer maps cleanly.</p>
+            <p><strong>Fix:</strong> Call the dataset directly with its own params and a confirmed flag:</p>
+            <pre><code>$myGridDS.load($myGridDS.queryParams, true);</code></pre>
+            <p>Always prefer <code>*DS.load</code> over <code>$grid.$load()</code>.</p>
+          </div>
+        </div>
+
+        <!-- Pitfall 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Data “Randomly” Empty
+              <small>#2</small>
+            </div>
+            <span class="pill-wtf">Trap</span>
+          </div>
+          <div class="card-body">
+            <p><strong>Symptom:</strong> Sometimes grids load fine, sometimes they come back empty with no errors.</p>
+            <p><strong>Why:</strong> Multiple loads fired while the previous load is still in progress → race conditions.</p>
+            <p><strong>Fix:</strong> Guard using <code>inProgress</code>:</p>
+            <pre><code>if (!$myGridDS.inProgress) {
+  $myGridDS.load($myGridDS.queryParams, true);
+}</code></pre>
+            <p>Optionally disable UI controls while <code>inProgress</code> is <code>true</code>.</p>
+          </div>
+        </div>
+
+        <!-- Pitfall 3 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              PB Docs vs Reality
+              <small>#3</small>
+            </div>
+            <span class="pill-wtf">Trap</span>
+          </div>
+          <div class="card-body">
+            <p><strong>Symptom:</strong> Examples from the Banner Extensibility Guide don’t match what your page is doing.</p>
+            <p><strong>Why:</strong> Docs show precompiled syntax like <code>$myThing</code> and <code>$myGrid.$load()</code>, but the actual page uses <code>$scope</code> and <code>*DS</code> objects under the hood.</p>
+            <p><strong>Fix:</strong></p>
+            <ul>
+              <li>Remember: <code>$myThing → $scope.myThing</code>.</li>
+              <li><code>$myGridDS</code> is the canonical dataset, not the grid widget.</li>
+              <li>Use <code>console.log($externalScope)</code> to see the real compiled world.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second row of TOP Pitfalls (can flow more freely) -->
+    <div class="col-grid-3">
+      <!-- Pitfall 4 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Page Works in SQL Dev, Fails in PB
+            <small>#4</small>
+          </div>
+          <span class="pill-fix">SQL</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Symptom:</strong> Virtual Domain query runs fine in SQL Developer, but PB errors or returns no rows.</p>
+          <p><strong>Usual culprits:</strong></p>
+          <ul>
+            <li>Bind variables not all lowercase (<code>:sid</code> vs <code>:SID</code>).</li>
+            <li>PB’s paging wrapper adds <code>offset</code>/<code>max</code> and changes semantics.</li>
+            <li>Missing role/privilege to run the domain in-app.</li>
+          </ul>
+          <p><strong>Fix:</strong> Turn on debug and inspect the full wrapped SQL &amp; bind variables from the error.</p>
+        </div>
+      </div>
+
+      <!-- Pitfall 5 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            “Where Did My Variables Go?”
+            <small>#5</small>
+          </div>
+          <span class="pill-wtf">$scope</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Symptom:</strong> <code>$myTextbox</code> or <code>$myGridDS</code> seems undefined in your script.</p>
+          <p><strong>Why:</strong> You’re looking at the wrong scope, or PB compiled things differently than the docs suggest.</p>
+          <p><strong>Fix:</strong></p>
+          <pre><code>console.log(this);
+console.log($externalScope);</code></pre>
+          <p>Click the button → inspect <code>this</code> in DevTools → find your actual properties under <code>$scope</code>.</p>
+        </div>
+      </div>
+
+      <!-- Pitfall 6 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            “PageBuilder Just Broke”
+            <small>#6</small>
+          </div>
+          <span class="pill-fix">Flow</span>
+        </div>
+        <div class="card-body">
+          <p><strong>Symptom:</strong> White screen, generic error, or no data and no obvious message.</p>
+          <p><strong>Fix flow:</strong></p>
+          <ul>
+            <li>Turn <strong>debug mode ON</strong>.</li>
+            <li>Reload and capture errors.</li>
+            <li>If error hits immediately → check domains, roles, bind vars.</li>
+            <li>If no errors but no rows → inspect <code>*DS.data</code> and <code>inProgress</code>.</li>
+            <li>Add a temporary button with <code>console.log($externalScope);</code> to inspect how PB actually compiled the page.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOLDEN PATTERNS chunk -->
+    <div class="wtf-chunk">
+      <div class="section-heading">
+        <span class="icon">🧭</span>
+        GOLDEN PATTERNS TO MEMORIZE
+      </div>
+
+      <div class="col-grid-3">
+        <!-- Pattern 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              1. Always Use the Dataset
+              <small>Grid/Data Truth</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Instead of:</p>
+            <pre><code>$myGrid.$load();</code></pre>
+            <p>Use:</p>
+            <pre><code>$myGridDS.load($myGridDS.queryParams, true);</code></pre>
+            <p>The <code>*DS</code> object is where all the real logic lives: paging, sorting, caching, saves.</p>
+          </div>
+        </div>
+
+        <!-- Pattern 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              2. SQL Debug by Intentionally Breaking It
+              <small>VD Trick</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>To see PB’s wrapped SQL:</p>
+            <ul>
+              <li>Introduce a deliberate syntax mistake in the VD.</li>
+              <li>Trigger a grid load.</li>
+              <li>Read the error output → it includes PB’s full wrapped query and parameters.</li>
+            </ul>
+            <p>Undo the typo after you’ve captured the info.</p>
+          </div>
+        </div>
+
+        <!-- Pattern 3 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              3. Scope Recon Button
+              <small>Debug Button</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Add a temporary [Button] and set its script to:</p>
+            <pre><code>console.log('PB scope snapshot:');
+console.log(this);
+console.log($externalScope);</code></pre>
+            <p>Use this whenever you’re unsure what variables PB actually generated.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHEN YOU'RE COMPLETELY LOST chunk -->
+    <div class="wtf-chunk">
+      <div class="section-heading">
+        <span class="icon">📌</span>
+        WHEN YOU’RE COMPLETELY LOST
+      </div>
+
+      <div class="col-grid-3">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Follow a Known-Good Page
+              <small>PBFLACTMPL / PBDCMAINT</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>Open <strong>PBDCMAINT</strong> first – cleaner, good coverage of features.</li>
+              <li>Then inspect <strong>PBFLACTMPL</strong> for more advanced patterns.</li>
+              <li>Compare your broken page to a working one: same data flow, different config?</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Minimal Repro
+              <small>Strip it Down</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>Create a test page with a single [Grid] and small VD.</li>
+              <li>Prove the query + dataset works in isolation.</li>
+              <li>Copy that pattern back into the “real” page.</li>
+            </ul>
+            <p>PB behaves better when you corner it with simple, focused test pages.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Remember the Stack
+              <small>Mental Model</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <pre><code>[PageBuilder] → [AngularJS $scope] → [*DS] → [VD / Resource] → [DB]</code></pre>
+            <p>If something is wrong, walk that chain from right to left, one step at a time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>PageBuilder Survival Guide – Print</title>
+  <style>
+    :root {
+      --bg-page: #f5f5f7;
+      --bg-card: #ffffff;
+      --border-subtle: #d4d4dd;
+      --border-strong: #9ca3af;
+      --text-main: #111827;
+      --text-soft: #4b5563;
+      --accent-core: #1d4ed8;
+      --accent-vd: #059669;
+      --accent-data: #ea580c;
+      --accent-debug: #b91c1c;
+      --accent-soft-core: #e0ecff;
+      --accent-soft-vd: #dbf4e7;
+      --accent-soft-data: #ffedd5;
+      --accent-soft-debug: #fee2e2;
+      --code-bg: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg-page);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 0;
+      background: var(--bg-page);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* Main sheet */
+    .sheet {
+      width: 850px;
+      max-width: 100%;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      padding: 18px 20px 20px;
+    }
+
+    @page {
+      size: letter portrait;
+      margin: 0.5in;
+    }
+
+
+
+    @media print {
+
+      html,
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+
+      body {
+        display: block !important;
+      }
+
+      .sheet {
+        width: 100% !important;
+        max-width: 850px !important;
+        margin: 0 auto !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+      }
+
+      .card {
+        background: #ffffff !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .section-row-title {
+        page-break-after: avoid !important;
+      }
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .sheet {
+      max-width: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    .card {
+      background: #ffffff !important;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+
+    .sheet {
+      max-width: 100%;
+      border-radius: 0;
+      border: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .title-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-soft);
+    }
+
+    .title-main {
+      font-size: 1.2rem;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-core);
+    }
+
+    .title-main span.icon {
+      font-size: 1.1rem;
+    }
+
+    .title-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .header-meta {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: flex-end;
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      padding: 2px 8px;
+      font-size: 0.68rem;
+      background: #f9fafb;
+      white-space: nowrap;
+    }
+
+    /* Section title row */
+    .section-row-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .section-heading {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-heading span.icon {
+      font-size: 0.9rem;
+    }
+
+    .section-note {
+      font-size: 0.68rem;
+      color: var(--text-soft);
+    }
+
+    /* 3-column layout like JS/Groovy sheet */
+    .col-grid-3 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .col-grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      padding: 6px 8px 7px;
+      font-size: 0.74rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+      gap: 6px;
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-title small {
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+    }
+
+    .card-pill {
+      font-size: 0.65rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+      white-space: nowrap;
+    }
+
+    .card-body {
+      font-size: 0.73rem;
+      color: var(--text-main);
+    }
+
+    .card-body p {
+      margin: 2px 0;
+    }
+
+    .card-body ul,
+    .card-body ol {
+      margin: 2px 0 2px 16px;
+      padding: 0;
+    }
+
+    .card-body li {
+      margin: 1px 0;
+    }
+
+    .badge-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      border-radius: 999px;
+      padding: 1px 6px;
+      border: 1px solid var(--border-subtle);
+      background: #f3f4f6;
+    }
+
+    .callout {
+      margin-top: 3px;
+      padding: 3px 6px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+    }
+
+    .callout.core {
+      border-color: #bfdbfe;
+      background: var(--accent-soft-core);
+    }
+
+    .callout.vd {
+      border-color: #bbf7d0;
+      background: var(--accent-soft-vd);
+    }
+
+    .callout.data {
+      border-color: #fed7aa;
+      background: var(--accent-soft-data);
+    }
+
+    .callout.debug {
+      border-color: #fecaca;
+      background: var(--accent-soft-debug);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.72rem;
+      background: var(--code-bg);
+      padding: 0 3px;
+      border-radius: 3px;
+      border: 1px solid #e5e7eb;
+    }
+
+    pre {
+      margin: 2px 0;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: var(--code-bg);
+      border: 1px solid #e5e7eb;
+      font-size: 0.72rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .footer-note {
+      margin-top: 4px;
+      font-size: 0.68rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    @media (max-width: 800px) {
+      .col-grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .col-grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-meta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sheet">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="title-block">
+        <div class="title-label">Internal Reference · MSSU</div>
+        <div class="title-main">
+          <span class="icon">🧩</span>
+          <span>PageBuilder Survival Guide</span>
+        </div>
+        <div class="title-sub">
+          Ellucian PageBuilder · Virtual Domains · AngularJS / Oracle PL/SQL
+        </div>
+        <div class="title-sub">Created by Tanner Davis · Version 1.0</div>
+      </div>
+      <div class="header-meta">
+        <div class="tag-row">
+          <span class="tag">Scope: Legacy MSSU Apps</span>
+          <span class="tag">Use when touching PageBuilder / Virtual Domains</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ROW: CORE MODEL -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">🧠</span>
+        CORE MENTAL MODEL
+      </div>
+      <div class="section-note">What PageBuilder actually is</div>
+    </div>
+    <div class="col-grid-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Big Picture
+            <small>Concept</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Frontend:</strong> AngularJS 1.x + jQuery, auto-generated HTML &amp; scopes.</li>
+            <li><strong>Backend:</strong> Virtual Domains (PL/SQL) for data access.</li>
+            <li><strong>Glue:</strong> Dataset objects (<code>*DS</code>) that handle load/save/paging.</li>
+            <li><strong>Reality:</strong> A DSL on top of PL/SQL, not a modern React app.</li>
+          </ul>
+          <div class="callout core">
+            Rule 0: Write code in a real editor, then paste into PageBuilder. Timeouts will eat unsaved work.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Where Things Live
+            <small>Map</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Virtual Domains:</strong> DB-facing SQL / PL-SQL.</li>
+            <li><strong>Resources:</strong> Glue between pages and virtual domains.</li>
+            <li><strong>Grids / Data:</strong> Visual or headless data consumers.</li>
+            <li><strong>CSS Manager:</strong> Shared styles; nothing magical.</li>
+          </ul>
+          <div class="badge-strip">
+            <span class="badge">VD = “view + wrapped query”</span>
+            <span class="badge">Grid / Data = dataset clients</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            When in Doubt
+            <small>Checklist</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ol>
+            <li>Turn <strong>debug mode ON</strong>.</li>
+            <li>Inspect the browser console for scope and datasets.</li>
+            <li>Check roles / privileges before blaming SQL.</li>
+            <li>Verify bind variables, case, and parameters.</li>
+          </ol>
+          <div class="callout core">
+            Treat PageBuilder as “Angular + PL/SQL under a hood,” not a WYSIWYG form tool.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: VIRTUAL DOMAINS -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">🗄️</span>
+        VIRTUAL DOMAINS (PL/SQL)
+      </div>
+      <div class="section-note">Data source layer</div>
+    </div>
+    <div class="col-grid-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            What They Are
+            <small>Definition</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>PL/SQL that defines the <strong>base SELECT</strong> for a resource.</li>
+            <li>PageBuilder wraps your SQL with paging and filtering logic.</li>
+            <li>Grids / Data components call these through resource objects.</li>
+          </ul>
+          <div class="callout vd">
+            Think: “curated query + PageBuilder-added paging wrapper.”
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Bind Vars &amp; Roles
+            <small>Gotchas</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>Bind variables must be lowercase:</strong> <code>:sid</code>, not <code>:SID</code>.</li>
+            <li>Uppercase bind vars → null parameters → empty / broken results.</li>
+            <li>Roles: missing role can block domain access before grids load.</li>
+          </ul>
+          <div class="callout vd">
+            Symptom: error as soon as page loads, grid never renders rows → check roles and bind variable casing first.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Seeing the Real SQL
+            <small>Debug Trick</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ol>
+            <li>Introduce a deliberate typo in the domain SQL.</li>
+            <li>Trigger a grid/data load that uses it.</li>
+            <li>Inspect the error response’s <code>resource</code> object.</li>
+          </ol>
+          <p>The wrapped query there is what PageBuilder actually executed.</p>
+          <div class="callout vd">
+            Use this when a domain works “standalone” but fails under PageBuilder paging.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: PAGE COMPOSER & COMPONENTS -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">📄</span>
+        PAGE COMPOSER & COMPONENTS
+      </div>
+      <div class="section-note">Structure + visual layer</div>
+    </div>
+    <div class="col-grid-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            [Page] &amp; Layout
+            <small>Top Level</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>[Page]</strong> sets title, styles, roles, and Object Name.</li>
+            <li>All components are children of this page element.</li>
+            <li>Preview failures can be caused by missing Object Name / route registration.</li>
+          </ul>
+          <div class="callout">
+            If a page “should” preview but doesn’t, confirm Object Name mapping with your supervisor.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Input Components
+            <small>[Text] / [Number] / [TextArea] / [Datetime]</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>[Text]</strong> → <code>&lt;input type="text"&gt;</code>.</li>
+            <li><strong>[Number]</strong> → similar, with numeric validation helpers.</li>
+            <li><strong>[TextArea]</strong> → <code>&lt;textarea&gt;</code> (clumsy in grids).</li>
+            <li><strong>[Datetime]</strong> → jQuery UI datepicker; format via jQuery.</li>
+          </ul>
+          <p>Validation attributes map directly:</p>
+          <pre><code>maxlength=6 → &lt;input maxlength="6"&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Data &amp; Literal
+            <small>[Grid] / [Data] / [Literal]</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li><strong>[Grid]</strong> → visual table bound to a dataset.</li>
+            <li><strong>[Data]</strong> → non-visual version; same DS behavior.</li>
+            <li><strong>[Literal]</strong> → renders raw HTML; allows <code>{{ }}</code> and
+              <code>$implicitVariables</code>.
+            </li>
+          </ul>
+          <div class="callout data">
+            Use [Literal] to inject HTML fragments PageBuilder can’t natively model.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: IMPLICIT VARIABLES & SCOPE -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">💲</span>
+        IMPLICIT VARIABLES & SCOPE
+      </div>
+      <div class="section-note">How the $magic works</div>
+    </div>
+    <div class="col-grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Compilation Pattern
+            <small>From $ to $scope</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>You write:</p>
+          <pre><code>console.log($myTextbox);</code></pre>
+          <p>PageBuilder compiles:</p>
+          <pre><code>console.log($scope.myTextbox);</code></pre>
+          <ul>
+            <li>Each component defines properties on a specific Angular <code>$scope</code>.</li>
+            <li>Datasets (for grids/data) attach as <code>*DS</code> objects on that scope.</li>
+            <li>Implicit variables are simply syntactic sugar over <code>$scope</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Inspecting the Scope
+            <small>Console Trick</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ol>
+            <li>Add a button with an onClick script:</li>
+          </ol>
+          <pre><code>console.log(this);</code></pre>
+          <ol start="2">
+            <li>Click the button in the running page.</li>
+            <li>In DevTools, <code>this</code> is the current <code>$scope</code>.</li>
+          </ol>
+          <p>Look for:</p>
+          <ul>
+            <li><code>this.myGridDS</code> · dataset object for a grid.</li>
+            <li><code>this.myTextbox</code> · value of a text input.</li>
+            <li><code>this.$externalScope</code> · alternate scope if <code>$var</code> appears undefined.</li>
+          </ul>
+          <div class="callout data">
+            This is the fastest way to discover what PageBuilder actually generated for a page.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: DATASETS & LOADING -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">📊</span>
+        DATASETS & LOADING
+      </div>
+      <div class="section-note">Grid/Data behavior</div>
+    </div>
+    <div class="col-grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Dataset Naming & API
+            <small>*DS objects</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>Grid name: <code>myGrid</code> → dataset: <code>myGridDS</code>.</li>
+            <li>PageBuilder suggests <code>$myGrid.$load()</code>, but that can break with scope changes.</li>
+          </ul>
+          <p>Preferred pattern:</p>
+          <pre><code>$myGridDS.load({ paging: true }, true);</code></pre>
+          <p>Datasets expose:</p>
+          <ul>
+            <li><code>data</code> – array of rows.</li>
+            <li><code>load()</code> – fetches rows.</li>
+            <li><code>dirty()</code> – unsaved changes.</li>
+            <li><code>inProgress</code> – load in flight.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            “Empty Data” Race Condition
+            <small>Common Bug</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>If a user triggers <code>.load()</code> while a previous load is still running, <code>data</code> can end
+            up empty.</p>
+          <p>Guard example:</p>
+          <pre><code>if (!$myGridDS.inProgress) {
+  $myGridDS.load({ paging: true }, true);
+}</code></pre>
+          <div class="callout data">
+            Also consider disabling buttons or controls while <code>inProgress</code> is true to avoid overlapping
+            loads.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: DEBUG MODE & QUICK FLOW -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">🩺</span>
+        DEBUG MODE & QUICK FLOW
+      </div>
+      <div class="section-note">When things break</div>
+    </div>
+    <div class="col-grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Debug Mode
+            <small>Must Use</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>Without debug, you usually see only a generic 500 error.</p>
+          <p>With debug enabled, you can see:</p>
+          <ul>
+            <li>Compiled SQL (including PageBuilder’s wrapper).</li>
+            <li>Bind variable names and values.</li>
+            <li>PL/SQL exception messages.</li>
+            <li>Which resource / domain actually failed.</li>
+          </ul>
+          <div class="callout debug">
+            Do all development with debug ON; turn it OFF only for production runs.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Quick Triage Flow
+            <small>Checklist</small>
+          </div>
+        </div>
+        <div class="card-body">
+          <ol>
+            <li>Enable debug mode.</li>
+            <li>Load the page; capture errors.</li>
+            <li>If domain errors appear immediately → check roles and bind variables.</li>
+            <li>If SQL errors show → fix the PL/SQL or parameters.</li>
+            <li>If no errors but no data → inspect <code>*DS.data</code> and paging filters.</li>
+            <li>Use a test button with <code>console.log(this);</code> to inspect scope.</li>
+          </ol>
+          <div class="callout debug">
+            This sequence covers 90% of “PageBuilder just broke” scenarios.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK START -->
+    <div class="section-row-title">
+      <div class="section-heading">
+        <span class="icon">🚀</span>
+        QUICK START: TOUCHING AN EXISTING PAGE
+      </div>
+      <div class="section-note">Use this the first week</div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <ol>
+          <li>Identify the page and its Object Name.</li>
+          <li>Turn <strong>debug mode ON</strong>.</li>
+          <li>Open Page Composer; copy existing scripts into your editor.</li>
+          <li>Add a temporary button with <code>console.log(this);</code> to inspect scope.</li>
+          <li>Find the relevant <code>*DS</code> (e.g., <code>myGridDS</code>) in the console.</li>
+          <li>Trigger a manual load with <code>$myGridDS.load({ paging: true }, true);</code>.</li>
+          <li>If data is wrong/empty:
+            <ul>
+              <li>Check Virtual Domain SQL + lowercase bind variables.</li>
+              <li>Verify roles / privileges.</li>
+              <li>Guard against overlapping loads using <code>inProgress</code>.</li>
+            </ul>
+          </li>
+          <li>Once stable, paste final code back into PageBuilder and remove debug helpers.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="footer-note">
+      Keep this sheet printed near your desk. It compresses years of “what the hell is PageBuilder doing?” into one
+      page.
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>MSSU PageBuilder Engineering Handbook – Dark v2</title>
+  <style>
+    :root {
+      --bg-page: #020617;
+      --card-surface: #020617;
+      --border-subtle: #1f2937;
+      --border-strong: #4b5563;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --accent-core: #60a5fa;
+      --accent-section: #34d399;
+      --accent-warn: #f87171;
+      --accent-note: #a855f7;
+      --code-bg: #0b1120;
+      --toc-bg: rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #0f172a 0, #020617 60%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    body {
+      padding: 24px 0;
+    }
+
+    .page {
+      width: 880px;
+      max-width: 100%;
+      margin: 0 auto 16px;
+      background: linear-gradient(145deg, #020617, #020617);
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      padding: 22px 24px 24px;
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+    }
+
+    .header-main {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .title-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .title-main {
+      font-size: 1.35rem;
+      font-weight: 730;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent-core);
+    }
+
+    .title-main span.icon {
+      font-size: 1.3rem;
+    }
+
+    .title-sub {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .meta-block {
+      font-size: 0.7rem;
+      text-align: right;
+      color: var(--text-soft);
+    }
+
+    .meta-block .tag {
+      display: inline-block;
+      margin-bottom: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.8);
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+
+    .toc {
+      margin-bottom: 16px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--toc-bg);
+      font-size: 0.76rem;
+    }
+
+    .toc-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toc-title span.icon {
+      font-size: 0.9rem;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    .toc a {
+      color: var(--accent-core);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .toc a span.index {
+      font-size: 0.72rem;
+      opacity: 0.75;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 4px;
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 650;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-section);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title .icon {
+      font-size: 1rem;
+    }
+
+    .section-note {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    h3 {
+      font-size: 0.85rem;
+      margin: 4px 0;
+      color: var(--text-main);
+    }
+
+    p {
+      font-size: 0.78rem;
+      margin: 3px 0;
+    }
+
+    ul,
+    ol {
+      font-size: 0.78rem;
+      margin: 3px 0 3px 18px;
+      padding: 0;
+    }
+
+    li {
+      margin: 2px 0;
+    }
+
+    .callout {
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      padding: 6px 9px;
+      font-size: 0.75rem;
+      margin: 5px 0;
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .callout.warn {
+      border-color: rgba(248, 113, 113, 0.6);
+      background: rgba(127, 29, 29, 0.6);
+      color: #fecaca;
+    }
+
+    .callout.note {
+      border-color: rgba(96, 165, 250, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      color: #bfdbfe;
+    }
+
+    .callout.tip {
+      border-color: rgba(52, 211, 153, 0.6);
+      background: rgba(6, 78, 59, 0.6);
+      color: #bbf7d0;
+    }
+
+    .mini-heading {
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-top: 3px;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.75rem;
+      background: var(--code-bg);
+      padding: 0 3px;
+      border-radius: 3px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+    }
+
+    pre {
+      margin: 3px 0;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: var(--code-bg);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 0.75rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.8);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 12px;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      text-align: right;
+    }
+
+    @media (max-width: 880px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .header-main {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .meta-block {
+        text-align: left;
+      }
+
+      .toc ul {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- MAIN HEADER -->
+    <header class="header-main">
+      <div class="title-block">
+        <div class="title-label">MSSU · Internal Engineering Handbook</div>
+        <div class="title-main">
+          <span class="icon">🌙</span>
+          <span>PageBuilder Engineering Handbook</span>
+        </div>
+        <div class="title-sub">
+          Dark-mode reading copy. Same content as the print edition, tuned for screens.
+        </div>
+        <div class="title-sub">
+          Author: Tanner Davis · Version 2.0
+        </div>
+      </div>
+      <div class="meta-block">
+        <div class="tag">Stack: Oracle · PL/SQL · PageBuilder · AngularJS</div><br />
+        <div class="tag">Use with: Survival Guide + Cheat Sheet</div><br />
+        <div>Last updated: 12/12/2025</div>
+      </div>
+    </header>
+
+    <!-- TOC -->
+    <nav class="toc">
+      <div class="toc-title">
+        <span class="icon">🧭</span>
+        <span>Table of Contents</span>
+      </div>
+      <ul>
+        <li><a href="#sec-1"><span class="index">1.</span> Core Mental Model</a></li>
+        <li><a href="#sec-2"><span class="index">2.</span> Virtual Domains &amp; Resources</a></li>
+        <li><a href="#sec-3"><span class="index">3.</span> Pages, Components &amp; Layout</a></li>
+        <li><a href="#sec-4"><span class="index">4.</span> $ Variables &amp; Scope</a></li>
+        <li><a href="#sec-5"><span class="index">5.</span> Datasets &amp; Loading</a></li>
+        <li><a href="#sec-6"><span class="index">6.</span> Debug Mode &amp; Triage</a></li>
+        <li><a href="#sec-7"><span class="index">7.</span> Working from Existing Pages</a></li>
+        <li><a href="#sec-8"><span class="index">8.</span> Onboarding Checklist</a></li>
+      </ul>
+    </nav>
+
+    <!-- SECTION 1 -->
+    <section class="section" id="sec-1">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🧠</span>
+          1. Core Mental Model
+        </div>
+        <div class="section-note">What PageBuilder actually is under the hood</div>
+      </div>
+      <p><span class="mini-heading">High-level view</span></p>
+      <ul>
+        <li><strong>Frontend:</strong> PageBuilder generates <strong>AngularJS 1.x</strong> + <strong>jQuery</strong>
+          code, HTML templates, and scopes.</li>
+        <li><strong>Backend:</strong> <strong>Virtual Domains (VDs)</strong> are PL/SQL units that define curated
+          queries and actions.</li>
+        <li><strong>Glue:</strong> <strong>Datasets</strong> (<code>*DS</code>) bind grids/data components to resources
+          that talk to VDs.</li>
+        <li><strong>Reality:</strong> You’re working in a DSL layered over PL/SQL and AngularJS, not a WYSIWYG “forms
+          designer.”</li>
+      </ul>
+      <div class="callout.tip">
+        If you think “Angular + PL/SQL” instead of “magic PageBuilder,” most confusing behavior suddenly makes sense.
+      </div>
+      <p><span class="mini-heading">Execution flow</span></p>
+      <pre><code>[User] → [PB page &amp; components] → [AngularJS $scope + *DS] → [Resource] → [Virtual Domain] → [Oracle DB]</code></pre>
+      <p>When debugging, walk this chain right-to-left: DB → VD → Resource → Dataset → Page → User.</p>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section class="section" id="sec-2">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🗄️</span>
+          2. Virtual Domains &amp; Resources
+        </div>
+        <div class="section-note">Your data layer in MSSU Banner apps</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3>2.1 What Virtual Domains Are</h3>
+          <ul>
+            <li>PL/SQL modules that define <strong>base queries</strong> or operations exposed to PageBuilder.</li>
+            <li>PageBuilder adds paging, sorting, filtering, and parameter handling on top of those queries.</li>
+            <li>Grids and Data components never call the DB directly — they go through a dataset → resource → VD.</li>
+          </ul>
+          <div class="callout.note">
+            Think of a Virtual Domain as “a view with smarts” that PageBuilder knows how to call.
+          </div>
+
+          <h3>2.2 Bind Variables &amp; Case</h3>
+          <ul>
+            <li>Bind variables <strong>must be lowercase</strong> in PB context: <code>:sid</code>, not
+              <code>:SID</code>.</li>
+            <li>Wrong casing can silently pass <code>NULL</code> parameters, giving empty or misleading results.</li>
+            <li>Always confirm that the bind variable names in the VD match what PB is sending in debug output.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>2.3 Roles, Security, and Access</h3>
+          <ul>
+            <li>Users may need specific roles to access a given VD or resource.</li>
+            <li>If a page errors immediately on load before anything renders, suspect roles/privileges.</li>
+          </ul>
+          <div class="callout.warn">
+            Symptom: page blows up before a grid ever appears → first questions: “Do I have the right role?” and “Are my
+            bind variables lowercase?”
+          </div>
+
+          <h3>2.4 Seeing PB’s Wrapped SQL</h3>
+          <ol>
+            <li>Turn <strong>debug mode ON</strong>.</li>
+            <li>Introduce a deliberate typo in the VD SQL (e.g., invalid column name).</li>
+            <li>Trigger a grid/data load using that domain.</li>
+            <li>Inspect the error in debug output for the full, wrapped SQL and bind variables.</li>
+          </ol>
+          <p>Remove the typo afterwards — you’re just using it as an x-ray for PB’s generated SQL.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section class="section" id="sec-3">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📄</span>
+          3. Pages, Components, and Layout
+        </div>
+        <div class="section-note">How PB slices up the frontend</div>
+      </div>
+      <h3>3.1 [Page] – Root of Everything</h3>
+      <ul>
+        <li>Sets title, Object Name, styles, and roles.</li>
+        <li>All components are descendants of this element.</li>
+        <li>Routing/preview issues often come back to Object Name / configuration.</li>
+      </ul>
+      <div class="callout.note">
+        If a page “should” be accessible but isn’t, confirm Object Name mapping and any required security with another
+        dev or supervisor.
+      </div>
+
+      <h3>3.2 Key Components</h3>
+      <ul>
+        <li><strong>[Text]/[Number]/[TextArea]/[Datetime]</strong> — input controls that map almost directly to standard
+          HTML elements.</li>
+        <li><strong>[Grid]</strong> — visual table bound to a dataset (<code>*DS</code>).</li>
+        <li><strong>[Data]</strong> — invisible data consumer; same dataset behavior without the UI.</li>
+        <li><strong>[Literal]</strong> — raw HTML; anchor point for custom markup and Angular expressions.</li>
+      </ul>
+
+      <h3>3.3 AngularJS Directives Under the Hood</h3>
+      <p>Many PageBuilder attributes map to AngularJS concepts (directives/expressions) during precompile. Examples:</p>
+      <ul>
+        <li>An onClick script becomes an AngularJS function on the page scope.</li>
+        <li>Bindings like <code>{{ $myTextbox }}</code> turn into <code>{{ myTextbox }}</code> against
+          <code>$scope</code>.</li>
+      </ul>
+      <div class="callout.tip">
+        Reading a bit of AngularJS 1.x documentation pays off — PageBuilder is essentially an AngularJS app generator
+        with a DSL in front of it.
+      </div>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section class="section" id="sec-4">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">💲</span>
+          4. $ Variables, $scope, and $externalScope
+        </div>
+        <div class="section-note">How PageBuilder compiles your scripts</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3>4.1 From $ to $scope</h3>
+          <p>Docs and UI examples show implicit variables like:</p>
+          <pre><code>$myTextbox
+$myGrid.$load()</code></pre>
+          <p>But the compiled AngularJS code looks more like:</p>
+          <pre><code>$scope.myTextbox
+$scope.myGridDS.load(...)</code></pre>
+          <ul>
+            <li><code>$myThing</code> means “<code>$scope.myThing</code> after compile.”</li>
+            <li>Datasets are exposed as <code>nameDS</code> objects on that same scope.</li>
+          </ul>
+
+          <h3>4.2 Logging the Real Scope</h3>
+          <p>Add a temporary [Button] and set its script to:</p>
+          <pre><code>console.log('PB scope snapshot:');
+console.log(this);
+console.log($externalScope);</code></pre>
+          <p>Click it in the running app, then inspect the logged object in DevTools. That’s your real
+            <code>$scope</code> tree.</p>
+        </div>
+        <div>
+          <h3>4.3 What to Look For in Scope</h3>
+          <ul>
+            <li><code>myGridDS</code> – dataset object backing a grid named <code>myGrid</code>.</li>
+            <li><code>gridApi</code> – UI-centric API for column sizing, selection, etc.</li>
+            <li><code>changed</code>, <code>dirty()</code>, <code>inProgress</code> – state flags for datasets.</li>
+          </ul>
+          <div class="callout.warn">
+            PB docs that show <code>$myGrid.$load()</code> are often misleading once the page is dirty or state changes.
+            The <code>*DS</code> object is the real source of truth.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section class="section" id="sec-5">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📊</span>
+          5. Datasets, Loading, and the Real Grid API
+        </div>
+        <div class="section-note">Where most of the “magic” actually lives</div>
+      </div>
+      <h3>5.1 Dataset Naming &amp; Anatomy</h3>
+      <ul>
+        <li>Grid name <code>myGrid</code> → dataset name <code>myGridDS</code>.</li>
+        <li>Key fields:
+          <ul>
+            <li><code>data</code> – array of row objects.</li>
+            <li><code>load(params, confirmed)</code> – primary method to fetch rows.</li>
+            <li><code>dirty()</code> – returns whether there are unsaved changes.</li>
+            <li><code>inProgress</code> – indicates whether a load is currently running.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>5.2 Why $myGrid.$load() Breaks</h3>
+      <p>Docs often show:</p>
+      <pre><code>$myGrid.$load();</code></pre>
+      <p>But in practice, this can silently stop working once the page or dataset is considered “dirty.” The wrapper
+        that PB generates around this call relies on internal state flags and may decide to do nothing.</p>
+      <p><strong>Preferred pattern:</strong></p>
+      <pre><code>// Reload grid using its dataset and known query params:
+$myGridDS.load($myGridDS.queryParams, true);</code></pre>
+      <div class="callout.tip">
+        Short version: <strong>always call the dataset’s <code>load()</code> directly</strong>, with its own
+        <code>queryParams</code> and <code>true</code> for <code>confirmed</code>.
+      </div>
+
+      <h3>5.3 Guarding Against Race Conditions</h3>
+      <p>Multiple user actions or scripts can trigger more than one load at a time. This can leave you with an empty
+        grid and no obvious error.</p>
+      <pre><code>if (!$myGridDS.inProgress) {
+  $myGridDS.load($myGridDS.queryParams, true);
+}</code></pre>
+      <p>Also consider disabling reload buttons while <code>inProgress</code> is <code>true</code>.</p>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section class="section" id="sec-6">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🩺</span>
+          6. Debug Mode and Standard Triage Flow
+        </div>
+        <div class="section-note">How to systematically debug PB pages</div>
+      </div>
+      <h3>6.1 Debug Mode</h3>
+      <ul>
+        <li>Without debug, PageBuilder hides most failure details.</li>
+        <li>With debug on, you see:
+          <ul>
+            <li>Full wrapped SQL queries.</li>
+            <li>Bind variables and values.</li>
+            <li>PL/SQL exception messages.</li>
+            <li>Which resource / domain failed.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>6.2 Standard Triage Flow</h3>
+      <ol>
+        <li>Turn <strong>debug mode ON</strong>.</li>
+        <li>Load the page and reproduce the issue.</li>
+        <li>If you get a domain or role error immediately → fix roles / privileges / bind variable case.</li>
+        <li>If you get SQL errors → fix the PL/SQL or parameters passed into the domain.</li>
+        <li>If there are no explicit errors but grids show no data:
+          <ul>
+            <li>Log <code>$myGridDS.data</code> and <code>$myGridDS.inProgress</code>.</li>
+            <li>Check <code>queryParams</code> (terms, IDs, filters).</li>
+            <li>Switch to <code>*DS.load(...)</code> instead of <code>$grid.$load()</code>.</li>
+          </ul>
+        </li>
+        <li>Add a temporary “scope snapshot” button if you’re still lost:
+          <pre><code>console.log($externalScope);</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section class="section" id="sec-7">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🧪</span>
+          7. Working from Existing MSSU Pages
+        </div>
+        <div class="section-note">PBFLACTMPL, PBDCMAINT, and friends</div>
+      </div>
+      <h3>7.1 Known-Good Examples</h3>
+      <ul>
+        <li><strong>PBDCMAINT</strong> – recommended starting point; uses many features but stays readable.</li>
+        <li><strong>PBFLACTMPL</strong> – more convoluted, but shows advanced patterns and edge cases.</li>
+      </ul>
+      <div class="callout.tip">
+        When adding a new feature, find a similar feature in PBDCMAINT. Mirror its pattern instead of inventing a new
+        one.
+      </div>
+
+      <h3>7.2 Minimal Repro Strategy</h3>
+      <ol>
+        <li>Create a test PB page with:
+          <ul>
+            <li>One small VD with a simple query.</li>
+            <li>One [Grid] bound to that VD via a dataset.</li>
+          </ul>
+        </li>
+        <li>Prove the behavior works there (sorting, paging, loads, etc.).</li>
+        <li>Copy the working pattern into the larger “real” page.</li>
+      </ol>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section class="section" id="sec-8">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🚀</span>
+          8. New Developer Onboarding Checklist
+        </div>
+        <div class="section-note">First week, focused tasks</div>
+      </div>
+      <ol>
+        <li>Read this Handbook, the <strong>PageBuilder Survival Guide</strong>, and the <strong>PageBuilder Cheat
+            Sheet</strong>.</li>
+        <li>Skim <strong>Banner Extensibility Handbook 9.3, pages 11–48</strong>:
+          <ul>
+            <li>Components and attributes (pp. 13–27).</li>
+            <li>Methods / directives (pp. 27–29).</li>
+            <li>Variables and <code>$</code> precompile behavior (pp. 30–32).</li>
+          </ul>
+        </li>
+        <li>Open PBDCMAINT and PBFLACTMPL in PageBuilder:
+          <ul>
+            <li>Find the dataset objects in DevTools via <code>$externalScope</code>.</li>
+            <li>Manually call <code>*DS.load(...)</code> and watch the results.</li>
+          </ul>
+        </li>
+        <li>Build a tiny prototype page:
+          <ul>
+            <li>One [Grid] + one small VD.</li>
+            <li>Add a debug button to log <code>$externalScope</code>.</li>
+            <li>Practice loading, dirtying, and reloading the dataset safely.</li>
+          </ul>
+        </li>
+        <li>Shadow an existing change:
+          <ul>
+            <li>Pick a past PB change/feature.</li>
+            <li>Walk through the commit, the PB page, the VD, and any related scripts.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="footer-note">
+        This handbook is meant to live next to the Survival Guide and Cheat Sheet. Together they form the MSSU
+        PageBuilder playbook.
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>
